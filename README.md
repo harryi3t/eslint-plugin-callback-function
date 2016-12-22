@@ -1,6 +1,6 @@
 # eslint-plugin-callback-function
 
-This rule enforces consistent placement of callback functions.
+This currently have only one rule which enforces consistent placement of callback functions.
 
 ## Installation
 
@@ -43,9 +43,4 @@ Then configure the rules you want to use under the rules section.
 
 ## Supported Rules
 
-* Fill in provided rules here
-
-
-
-
-
+* on-newline
