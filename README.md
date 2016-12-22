@@ -43,4 +43,4 @@ Then configure the rules you want to use under the rules section.
 
 ## Supported Rules
 
-* on-newline
+* [on-newline](docs/rules/on-newline.md)
