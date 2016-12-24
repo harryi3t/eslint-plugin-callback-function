@@ -12,28 +12,63 @@ Examples of **incorrect** code for this rule:
 
 ```js
 
-var names = ['foo', 'bar'];
-names.map(function (name) {return name.toUpper();});
+var API = {};
 
+API.get(function() {});
+
+API
+  .get(function() {
+
+  });
+
+API
+  .get("argument-1", "argument-2",
+    "argument-3", "argument-4", function() {
+
+    });
+
+
+var names = ['foo', 'bar'];
 names.map(function (name) {
   return name.toUpper();
 });
 
+var _ = require('underscore');
 _.chain(names)
   .map(function (name) {
     return name.toUpper();
   })
   .value();
 
-API.get('query', 'param1', 'param2', function (result) {
-  // do someting with result
-}, 'param3');
 
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
+
+var API = {};
+API.get(
+  function() {
+
+  }
+);
+
+API
+  .get(
+    function() {
+
+    }
+  );
+
+API
+  .get("argument-1", "argument-2",
+    "argument-3", "argument-4",
+    function() {
+
+    }
+  );
+
 
 var names = ['foo', 'bar'];
 names.map(
@@ -42,6 +77,7 @@ names.map(
   }
 );
 
+var _ = require('underscore');
 _.chain(names)
   .map(
     function (name) {
@@ -49,13 +85,6 @@ _.chain(names)
     }
   )
   .value();
-
-API.get('query', 'param1', 'param2',
-  function (result) {
-    // do someting with result
-  },
-  'param3'
-);
 
 ```
 

@@ -2,75 +2,104 @@
  * @fileoverview This rule enforces consistent placement of callback functions.
  * @author Harendra Singh
  */
-"use strict";
+'use strict';
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/on-newline");
-var RuleTester = require("eslint").RuleTester;
+var rule = require('../../../lib/rules/on-newline');
+var RuleTester = require('eslint').RuleTester;
 
+var onNewLineErrors = [{
+  message: 'function on new line',
+  type: 'FunctionExpression'
+}];
+
+var ruleTester = new RuleTester();
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var validCodeSnippets = [
-  'API.get(                                                 \n\
-    function () {                                           \n\
-                                                            \n\
-    }                                                       \n\
-  );',
-  'longApiName                                              \n\
-    .get(                                                   \n\
-      function () {                                         \n\
-                                                            \n\
-      }                                                     \n\
-    );',
-  'longApiName                                              \n\
-    .get(\'argument-1\', \'argument-2\', \'argument-3\',    \n\
-      function () {                                         \n\
-                                                            \n\
-      },                                                    \n\
-      \'argument-4\'                                        \n\
-    );'
-];
+ruleTester.run('simple callback', rule, {
+  valid: [{
+    code:
+      'API.get(                                                  \n\
+        function () {                                            \n\
+                                                                 \n\
+        }                                                        \n\
+      );'
+  }],
+  invalid: [{
+    code: 'API.get(function () {})',
+    errors: onNewLineErrors
+  }]
+});
 
-var inValidCodeSnippets = [
-  'API.get(function () {})',
-  'longApiName                                              \n\
-    .get(function () {                                      \n\
-                                                            \n\
-      }                                                     \n\
-    );',
-  'longApiName                                              \n\
-    .get(\'argument-1\', \'argument-2\', function () {      \n\
-                                                            \n\
-      }, \'argument-4\'                                     \n\
-    );'
-];
+ruleTester.run('callee on newline', rule, {
+  valid: [{
+    code:
+      'API                                                      \n\
+        .get(                                                   \n\
+          function () {                                         \n\
+                                                                \n\
+          }                                                     \n\
+        );'
+  }],
+  invalid: [{
+    code:
+      'API                                                      \n\
+        .get(function () {                                      \n\
+                                                                \n\
+        });',
+    errors: onNewLineErrors
+  }]
+});
 
-var validSnippets = validCodeSnippets.map(
-  function (code) {
-    return {code: code};
-  }
-);
+ruleTester.run('callback with sibling arguments', rule, {
+  valid: [{
+    code:
+      'API                                                      \n\
+        .get(\'argument-1\', \'argument-2\',                    \n\
+          \'argument-3\',                                       \n\
+          function () {                                         \n\
+                                                                \n\
+          },                                                    \n\
+          \'argument-4\'                                        \n\
+        );'
+  }],
+  invalid: [{
+    code:
+      'API                                                      \n\
+        .get(\'argument-1\', \'argument-2\',                    \n\
+          \'argument-3\', function () {                         \n\
+                                                                \n\
+          }                                                     \n\
+        );',
+    errors: onNewLineErrors
+  }]
+});
 
-var inValidSnippets = inValidCodeSnippets.map(
-  function (code) {
-    return {
-      code: code,
-      errors: [{
-        message: "function on new line",
-        type: "FunctionExpression"
-      }]
-    };
-  }
-);
-
-var ruleTester = new RuleTester();
-ruleTester.run("on-newline", rule, {
-  valid: validSnippets,
-  invalid: inValidSnippets
+ruleTester.run('callback where callee is MemberExpression', rule, {
+  valid: [{
+    code:
+      '_.chain(names)                                           \n\
+        .map(                                                   \n\
+          function (name) {                                     \n\
+            return name.toUpper();                              \n\
+          }                                                     \n\
+        )                                                       \n\
+        .value();'
+  }],
+  invalid: [{
+    code:
+      'API                                                      \n\
+        .get(\'argument-1\', \'argument-2\',                    \n\
+          \'argument-3\', function () {                         \n\
+                                                                \n\
+          }                                                     \n\
+        );',
+    errors: onNewLineErrors
+  }]
 });
