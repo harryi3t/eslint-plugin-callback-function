@@ -16,23 +16,61 @@ var RuleTester = require("eslint").RuleTester;
 // Tests
 //------------------------------------------------------------------------------
 
+var validCodeSnippets = [
+  'API.get(                                                 \n\
+    function () {                                           \n\
+                                                            \n\
+    }                                                       \n\
+  );',
+  'longApiName                                              \n\
+    .get(                                                   \n\
+      function () {                                         \n\
+                                                            \n\
+      }                                                     \n\
+    );',
+  'longApiName                                              \n\
+    .get(\'argument-1\', \'argument-2\', \'argument-3\',    \n\
+      function () {                                         \n\
+                                                            \n\
+      },                                                    \n\
+      \'argument-4\'                                        \n\
+    );'
+];
+
+var inValidCodeSnippets = [
+  'API.get(function () {})',
+  'longApiName                                              \n\
+    .get(function () {                                      \n\
+                                                            \n\
+      }                                                     \n\
+    );',
+  'longApiName                                              \n\
+    .get(\'argument-1\', \'argument-2\', function () {      \n\
+                                                            \n\
+      }, \'argument-4\'                                     \n\
+    );'
+];
+
+var validSnippets = validCodeSnippets.map(
+  function (code) {
+    return {code: code};
+  }
+);
+
+var inValidSnippets = inValidCodeSnippets.map(
+  function (code) {
+    return {
+      code: code,
+      errors: [{
+        message: "function on new line",
+        type: "FunctionExpression"
+      }]
+    };
+  }
+);
+
 var ruleTester = new RuleTester();
 ruleTester.run("on-newline", rule, {
-
-  valid: [{
-    code:
-      'API.get(\n'+
-      '  function () {\n' +
-      '   \n' +
-      '  }\n' +
-      ');'
-  }],
-
-  invalid: [{
-    code: "API.get(function () {})",
-    errors: [{
-      message: "function on new line",
-      type: "FunctionExpression"
-    }]
-  }]
+  valid: validSnippets,
+  invalid: inValidSnippets
 });
