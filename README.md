@@ -1,6 +1,9 @@
 # eslint-plugin-callback-function
 
 This currently have only one rule which enforces consistent placement of callback functions.
+![rule-on-newline-code](https://cloud.githubusercontent.com/assets/5207331/21466439/cd32197a-c9f1-11e6-9e91-41c593a050ec.png)
+
+
 
 ## Installation
 
