@@ -103,3 +103,24 @@ ruleTester.run('callback where callee is MemberExpression', rule, {
     errors: onNewLineErrors
   }]
 });
+
+ruleTester.run('callback where callee is Identifier ' +
+  'and CallExpression has multiple arguments', rule, {
+  valid: [{
+    code:
+      'setTimeout(                                             \n\
+        function () {                                          \n\
+                                                               \n\
+        },                                                     \n\
+        1000                                                   \n\
+      );'
+
+  }],
+  invalid: [{
+    code:
+      'setTimeout(function () {                                 \n\
+                                                                \n\
+      }, 1000);',
+    errors: onNewLineErrors
+  }]
+});
