@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-callback-function",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "This rule enforces consistent placement of callback functions.",
   "keywords": [
     "eslint",
