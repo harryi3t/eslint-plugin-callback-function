@@ -1,5 +1,12 @@
 # This rule enforces consistent placement of callback functions. (on-newline)
 
+:wrench: The --fix option on the command line automatically fixes problems reported by this rule.
+
+:warning: This option is not very stable so it's turned off by default. To turn it on use `auto-fix` as an option
+```js
+ "callback-function/on-newline": ["error", "auto-fix"]
+```
+
 When a callback function is passed inline to an expression,
 then it's difficult to see the body of the callback function from the expression itself.
 Placing the callback function always on newline makes the code more readable.
@@ -8,9 +15,10 @@ Placing the callback function always on newline makes the code more readable.
 
 This rule aims to enforce the restriction that any callback function must begin on a newline.
 
-Examples of **incorrect** code for this rule:
+:thumbsdown: Examples of **incorrect** code for this rule:
 
 ```js
+/*eslint callback-function/on-newline: "error"*/
 
 var API = {};
 
@@ -43,9 +51,10 @@ _.chain(names)
 
 ```
 
-Examples of **correct** code for this rule:
+:thumbsup: Examples of **correct** code for this rule:
 
 ```js
+/*eslint callback-function/on-newline: "error"*/
 
 var API = {};
 API.get(
