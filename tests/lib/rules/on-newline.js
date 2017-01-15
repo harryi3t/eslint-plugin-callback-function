@@ -138,11 +138,33 @@ ruleTester.run('callback along with variable declaration', rule, {
   }],
   invalid: [{
     code:
-    'x = _.map(values, function (value) {                       \n\
-                                                                \n\
-                                                                \n\
-      }                                                         \n\
-    );',
+      'x = _.map(values, function (value) {                       \n\
+                                                                  \n\
+                                                                  \n\
+        }                                                         \n\
+      );',
+    errors: onNewLineErrors
+  }]
+});
+
+ruleTester.run('callback along with return statement', rule, {
+  valid: [{
+    code:
+      'function foo() {                                           \n\
+        return request(                                           \n\
+          function () {                                           \n\
+                                                                  \n\
+          }                                                       \n\
+        );                                                        \n\
+      }'
+  }],
+  invalid: [{
+    code:
+      'function foo() {                                           \n\
+        return request(function () {                              \n\
+                                                                  \n\
+        });                                                       \n\
+      }',
     errors: onNewLineErrors
   }]
 });
