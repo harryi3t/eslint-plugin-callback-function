@@ -124,3 +124,25 @@ ruleTester.run('callback where callee is Identifier ' +
     errors: onNewLineErrors
   }]
 });
+
+ruleTester.run('callback along with variable declaration', rule, {
+  valid: [{
+    code:
+      'var x;                                                   \n\
+        x = _.map(values,                                       \n\
+        function (value) {                                      \n\
+                                                                \n\
+        }                                                       \n\
+      );'
+
+  }],
+  invalid: [{
+    code:
+    'x = _.map(values, function (value) {                       \n\
+                                                                \n\
+                                                                \n\
+      }                                                         \n\
+    );',
+    errors: onNewLineErrors
+  }]
+});
